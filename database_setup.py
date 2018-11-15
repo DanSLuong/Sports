@@ -85,7 +85,7 @@ class Player(Base):
 
 
 class PlayerStats(Base):
-    __talbename__ 'playerstats'
+    __tablename__ = 'playerstats'
 
     date = Column(date, nullable=False)
     minutesPlayed = Column(Integer, nullable=False)

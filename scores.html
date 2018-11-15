@@ -1,49 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            table, th, td {
-                border: solid;
-                border-collapse: collapse;
-                text-align: center;
-            }
-        </style>
-    </head>
 
-    <body>
-        This page will be the starting page where scores will be displayed for your desired team.
+<head>
+    <style>
+        table,
+        th,
+        td {
+            border: solid;
+            border-collapse: collapse;
+            text-align: center;
+            margin: auto;
+        }
 
-        <br><br>
+        a {
+            color: black;
+            text-decoration: none;
+        }
 
-        <div class="scoreBox">
-            Team 1 Vs Team 2
-            <table>
-                <tr>
-                    <th> Team </th>
-                    <th> Q1 </th>
-                    <th> Q2 </th>
-                    <th> Q3 </th>
-                    <th> Q4 </th>
-                    <th> T </th>
-                </tr>
-                <tr>
-                    <td> Team 1 </td>
-                    <td> Q1 </td>
-                    <td> Q2 </td>
-                    <td> Q3 </td>
-                    <td> Q4 </td>
-                    <td> Total </td>
-                </tr>
-                <tr>
-                    <td> Team 2 </td>
-                    <td> Q1 </td>
-                    <td> Q2 </td>
-                    <td> Q3 </td>
-                    <td> Q4 </td>
-                    <td> Total </td>
-                </tr>
-            </table>
-        </div>
-        
-    </body>
+        .scoreBox {
+            text-align: center;
+        }
+
+        .boxScore {
+            width: 5%;
+            background-color: gray;
+            text-align: center;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    This page will be the starting page where scores will be displayed for your desired team.
+
+    <br><br>
+
+    <div class="scoreBox">
+        Team 1 Vs Team 2
+        <table>
+            <tr>
+                <th> Team </th>
+                <th> Q1 </th>
+                <th> Q2 </th>
+                <th> Q3 </th>
+                <th> Q4 </th>
+                <th> T </th>
+            </tr>
+            <tr>
+                <td> Team 1 </td>
+                <td> Q1 </td>
+                <td> Q2 </td>
+                <td> Q3 </td>
+                <td> Q4 </td>
+                <td> Total </td>
+            </tr>
+            <tr>
+                <td> Team 2 </td>
+                <td> Q1 </td>
+                <td> Q2 </td>
+                <td> Q3 </td>
+                <td> Q4 </td>
+                <td> Total </td>
+            </tr>
+        </table>
+
+        <a href="####boxScore-Link">
+            <div class="boxScore">
+                Box Score
+            </div>
+        </a>
+
+    </div>
+
+</body>
+
 </html>

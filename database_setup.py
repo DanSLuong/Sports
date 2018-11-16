@@ -87,7 +87,7 @@ class Game(Base):
     __tablename__ = 'game'
 
     id = Column(Integer, primary_key=True)
-    date = Column(String(250), nullabe=False)
+    date = Column(String(250), nullable=False)
     # date = Column(DateTime(timezone=True), default=func.now())
 
     team_id = Column(Integer, ForeignKey('team.id'))

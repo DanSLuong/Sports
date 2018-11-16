@@ -1,10 +1,10 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import create_engine
-from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
@@ -87,7 +87,8 @@ class Player(Base):
 class PlayerStats(Base):
     __tablename__ = 'playerstats'
 
-    date = Column(date, nullable=False)
+    id = Column(Integer, primary_key=True)
+    # date = Column(DateTime(timezone=True), default=func.now())
     minutesPlayed = Column(Integer, nullable=False)
     points = Column(Integer, nullable=False)
     rebounds = Column(Integer, nullable=False)
@@ -105,7 +106,7 @@ class PlayerStats(Base):
     def serialize(self):
         """Return object data in easily serializable format"""
         return{
-            'date': self.date,
+            # 'date': self.date,
             'minutesPlayed': self.minutesPlayed,
             'points': self.points,
             'rebounds': self.rebounds,
@@ -114,7 +115,29 @@ class PlayerStats(Base):
             'blocks': self.blocks,
             'turnovers': self.turnovers,
             'fouls': self.fouls,
+            'id': self.id,
         }
+
+
+class Game(Base):
+    __tablename__ = 'game'
+
+    id = Column(Integer, primary_key=True)
+    # date = Column(DateTime(timezone=True), default=func.now())
+
+    player_id = Column(Integer, ForeignKey('player.id'))
+    player = relationship(Player, backref=backref('game', cascade='all, delete'))
+    playerstats_id = Column(Integer, ForeignKey('playerstats.id'))
+    playerstats = relationship(PlayerStats, backref=backref('game', cascade='all, delete'))
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return{
+            # 'date': self.date,
+            'id': self.id,
+        }
+
 
 
 engine = create_engine('sqlite:///sports.db')

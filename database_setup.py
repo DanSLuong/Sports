@@ -50,8 +50,7 @@ class Player(Base):
     id = Column(Integer, primary_key=True)
     firstName = Column(String(250), nullable=False)
     lastName = Column(String(250), nullable=False)
-    jersey = Column(Integer, nullable=False)
-    
+    jersey = Column(Integer, nullable=False) 
     position = Column(String(250))
     height = Column(String(250))
     weight = Column(String(250))

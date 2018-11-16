@@ -39,7 +39,8 @@ def scores():
 
 
 # Game Data/Box Score Stats
-@app.route('/<int:game_id>/')
+# @app.route('/<int:game_id>/')
+@app.route('/boxscore')
 def boxScore():
     return render_template('boxscore.html')
 

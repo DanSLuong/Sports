@@ -40,9 +40,11 @@ def scores():
 
 # Game Data/Box Score Stats
 # @app.route('/<int:game_id>/')
-@app.route('/boxscore')
-def boxScore():
-    return render_template('boxscore.html')
+@app.route('/boxscore/<int:game_id>')
+def boxScore(game_id):
+    game = session.query(Game).filter_by(id=game_id).one()
+    stats = session.query(PlayerStats).filter_by(game_id=game_id).all()
+    return render_template('boxscore.html', game=game, stats=stats)
 
 
 # Shows infromation about the selected player

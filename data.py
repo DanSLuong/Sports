@@ -17,20 +17,6 @@ team1=Team(name='Rockets',
             division='Southwest',
             league='NBA')
 session.add(team1)
-
-
-player1=Player(firstName="Carmelo",
-                lastName="Anthony",
-                jersey="7",
-                position="F",
-                height="6'8",
-                weight="240",
-                age="34",
-                college="Syracuse",
-                birthplace="NYC",
-                role="Bench",
-                team=team1)
-session.add(player1)
 session.commit()
 
 player1=Player(firstName="James",
@@ -83,7 +69,7 @@ player1=Player(firstName="P.J.",
                 weight="245",
                 age="33",
                 college="Texas",
-                birthplace="Raleigh, NC",
+                birthplace="Raleigh, North Carolina",
                 role="Starter",
                 team=team1)
 session.add(player1)
@@ -111,8 +97,8 @@ player1=Player(firstName="Isaiah",
                 height="7'0",
                 weight="249",
                 age="20",
-                college="",
-                birthplace="",
+                college="Zalgiris Kaunas",
+                birthplace="Eugene, Oregon",
                 role="Bench",
                 team=team1)
 session.add(player1)
@@ -125,8 +111,8 @@ player1=Player(firstName="Gary",
                 height="6'8",
                 weight="225",
                 age="23",
-                college="",
-                birthplace="",
+                college="Cincinnati",
+                birthplace="Smithfield, North Carolina",
                 role="Bench",
                 team=team1)
 session.add(player1)
@@ -140,8 +126,132 @@ player1=Player(firstName="Eric",
                 weight="215",
                 age="29",
                 college="Indiana",
-                birthplace="",
+                birthplace="Indianapolis, Indiana",
                 role="Bench",
                 team=team1)
 session.add(player1)
+session.commit()
+
+
+
+
+
+
+
+game1=Game(date = "November 13, 2018")
+session.add(game1)
+session.commit()
+
+
+
+
+playerstats1=PlayerStats(game_id=1,
+                        team_id=1,
+                        minutesPlayed = 36,
+                        points = 22,
+                        rebounds = 5,
+                        assists = 11,
+                        steals = 3,
+                        blocks = 1,
+                        turnovers = 4,
+                        fouls = 3)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=2,
+                        team_id=1,
+                        minutesPlayed = 32,
+                        points = 21,
+                        rebounds = 5,
+                        assists = 4,
+                        steals = 2,
+                        blocks = 0,
+                        turnovers = 3,
+                        fouls = 0)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=3,
+                        team_id=1,
+                        minutesPlayed = 36,
+                        points = 24,
+                        rebounds = 9,
+                        assists = 2,
+                        steals = 0,
+                        blocks = 1,
+                        turnovers = 1,
+                        fouls = 4)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=4,
+                        team_id=1,
+                        minutesPlayed = 40,
+                        points = 12,
+                        rebounds = 6,
+                        assists = 2,
+                        steals = 1,
+                        blocks = 1,
+                        turnovers = 1,
+                        fouls = 3)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=5,
+                        team_id=1,
+                        minutesPlayed = 33,
+                        points = 16,
+                        rebounds = 4,
+                        assists = 1,
+                        steals = 1,
+                        blocks = 2,
+                        turnovers = 1,
+                        fouls = 3)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=6,
+                        team_id=1,
+                        minutesPlayed = 11,
+                        points = 3,
+                        rebounds = 1,
+                        assists = 0,
+                        steals = 0,
+                        blocks = 0,
+                        turnovers = 2,
+                        fouls = 3)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=7,
+                        team_id=1,
+                        minutesPlayed = 15,
+                        points = 0,
+                        rebounds = 2,
+                        assists = 1,
+                        steals = 0,
+                        blocks = 0,
+                        turnovers = 0,
+                        fouls = 3)
+session.add(playerstats1)
+session.commit()
+
+playerstats1=PlayerStats(game_id=1,
+                        player_id=8,
+                        team_id=1,
+                        minutesPlayed = 33,
+                        points = 11,
+                        rebounds = 0,
+                        assists = 2,
+                        steals = 0,
+                        blocks = 1,
+                        turnovers = 2,
+                        fouls = 1)
+session.add(playerstats1)
 session.commit()

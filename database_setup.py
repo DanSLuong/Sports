@@ -83,6 +83,26 @@ class Player(Base):
         }
 
 
+class Game(Base):
+    __tablename__ = 'game'
+
+    id = Column(Integer, primary_key=True)
+    date = Column(String(250), nullabe=False)
+    # date = Column(DateTime(timezone=True), default=func.now())
+
+    team_id = Column(Integer, ForeignKey('team.id'))
+    team = relationship(Team, backref=backref('game', cascade='all, delete'))
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return{
+            # 'date': self.date,
+            'date': self.date,
+            'id': self.id,
+        }
+
+
 class PlayerStats(Base):
     __tablename__ = 'playerstats'
 
@@ -99,6 +119,8 @@ class PlayerStats(Base):
 
     player_id = Column(Integer, ForeignKey('player.id'))
     player = relationship(Player, backref=backref('playerstats', cascade='all, delete'))
+    game_id = Column(Integer, ForeignKey('game.id'))
+    game = relationship(Game, backref=backref('playerstats', cascade='all, delete'))
 
 
     @property
@@ -114,26 +136,6 @@ class PlayerStats(Base):
             'blocks': self.blocks,
             'turnovers': self.turnovers,
             'fouls': self.fouls,
-            'id': self.id,
-        }
-
-
-class Game(Base):
-    __tablename__ = 'game'
-
-    id = Column(Integer, primary_key=True)
-    # date = Column(DateTime(timezone=True), default=func.now())
-
-    player_id = Column(Integer, ForeignKey('player.id'))
-    player = relationship(Player, backref=backref('game', cascade='all, delete'))
-    playerstats_id = Column(Integer, ForeignKey('playerstats.id'))
-    playerstats = relationship(PlayerStats, backref=backref('game', cascade='all, delete'))
-
-    @property
-    def serialize(self):
-        """Return object data in easily serializable format"""
-        return{
-            # 'date': self.date,
             'id': self.id,
         }
 

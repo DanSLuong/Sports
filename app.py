@@ -75,6 +75,28 @@ def team(team_id):
     return render_template('roster.html', team=team, players=players)
 
 
+@app.route('/<int:team_id>/addplayer/', methods=['GET', 'POST'])
+def addPlayer(team_id):
+    team = session.query(Team).filter_by(id=team_id).one()
+    if request.method == 'POST':
+        newPlayer = Player(firstName=request.form['firstName'],
+                            lastName=request.form['lastName'],
+                            jersey=request.form['jersey'],
+                            position=request.form['position'],
+                            height=request.form['height'],
+                            weight=request.form['weight'],
+                            age=request.form['age'],
+                            college=request.form['college'],
+                            birthplace=request.form['birthplace'],
+                            role=request.form['role'],
+                            team_id=team_id)
+        session.add(newPlayer)
+        session.commit()
+        return redirect(url_for('team', team_id=team_id))
+    else:
+        return render_template('newplayer.html', team=team)
+
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True

@@ -137,8 +137,8 @@ session.commit()
 
 
 
-
-game1=Game(date = "November 13, 2018")
+"""
+game1=Game(date = "November 15, 2018")
 session.add(game1)
 session.commit()
 
@@ -147,14 +147,14 @@ session.commit()
 
 playerstats1=PlayerStats(game_id=1,
                         team_id=1,
-                        minutesPlayed = 36,
-                        points = 22,
-                        rebounds = 5,
-                        assists = 11,
-                        steals = 3,
-                        blocks = 1,
-                        turnovers = 4,
-                        fouls = 3)
+                        minutesPlayed = 32,
+                        points = 27,
+                        rebounds = 3,
+                        assists = 3,
+                        steals = 2,
+                        blocks = 0,
+                        turnovers = 1,
+                        fouls = 4)
 session.add(playerstats1)
 session.commit()
 
@@ -255,3 +255,5 @@ playerstats1=PlayerStats(game_id=1,
                         fouls = 1)
 session.add(playerstats1)
 session.commit()
+"""
+

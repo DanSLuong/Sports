@@ -1,0 +1,24 @@
+<div>
+   <h1> Add Team to DB </h1>
+   <form action="#" method='post'>
+       <p> Team Name: </p>
+       <input type='text' size='30' name='name'>
+       <p> City: </p>
+       <input type='text' size='30' name='city'>
+       <p> State: </p>
+       <input type='text' size='30' name='state'>
+       <p> Conference: </p>
+       <input type='radio' name='conference' value='West' checked> West <br>
+       <input type='radio' name='conference' value='East'> East <br>
+       <br>
+       <p> Division: </p>
+       <input type='radio' name='division' value='Atlantic'> Atlantic <br>
+       <input type='radio' name='division' value='Central'> Central <br>  
+       <input type='radio' name='division' value='Southeast'> Southeast <br>       
+       <input type='radio' name='division' value='Northwest'> Northwest <br>      
+       <input type='radio' name='division' value='Pacific'> Pacific <br>     
+       <input type='radio' name='division' value='Southwest' checked> Southwest <br>
+       <input type='submit' value='Create'>
+       <a href="{{url_for('scores')}}"> Cancel </a>
+   </form>
+</div>

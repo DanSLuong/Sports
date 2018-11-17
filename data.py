@@ -452,3 +452,8 @@ session.add(playerstats23)
 playerstats24=PlayerStats(game_id = 1, player_id = 24, minutesPlayed = 11, points = 3, rebounds = 3, assists = 1, steals = 0, blocks = 0, turnovers = 1, fouls = 1)
 session.add(playerstats24)
 session.commit()
+
+
+gamstats1=TeamStats(game_id=1, team_id=11, q1=25,q2=22,q3=29,q4=31)
+gamstats1=TeamStats(game_id=1, team_id=10, q1=19,q2=22,q3=22,q4=23)
+

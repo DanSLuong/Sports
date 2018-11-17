@@ -14,6 +14,19 @@
 
     <table>
         <tr>
+            <th> Date </th>
+            <th> Final Score </th>
+        </tr>
+        {% for stat in stats %}
+        <tr>
+            <td> {{ game.date }} </td>
+            <td> {{ stat.finalscore }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <table>
+        <tr>
             <th> Name </th>
             <th> Position </th>
             <th> Number </th>

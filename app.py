@@ -7,7 +7,7 @@ from flask import (Flask,
                     g)
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Team, Player, PlayerStats, Game, User
+from database_setup import Base, Team, Player, PlayerStats, TeamStats, Game, User
 from flask import session as login_session
 import random
 import string
@@ -44,7 +44,8 @@ def scores():
 def boxScore(game_id):
     game = session.query(Game).filter_by(id=game_id).one()
     stats = session.query(PlayerStats).filter_by(game_id=game_id).all()
-    return render_template('boxscore.html', game=game, stats=stats)
+    teamstats = session.query(TeamStats).filter_by(game_id=game_id).all()
+    return render_template('boxscore.html', game=game, stats=stats, teamstats=teamstats)
 
 
 # Shows infromation about the selected player
@@ -73,8 +74,9 @@ def addTeam():
 @app.route('/<int:team_id>/')
 def team(team_id):
     team = session.query(Team).filter_by(id=team_id).one()
+    stats = session.query(TeamStats).filter_by(team_id=team_id).all()
     players = session.query(Player).filter_by(team_id=team_id).all()
-    return render_template('roster.html', team=team, players=players)
+    return render_template('roster.html', team=team, stats=stats, players=players)
 
 
 @app.route('/<int:team_id>/addplayer/', methods=['GET', 'POST'])

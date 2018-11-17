@@ -107,7 +107,6 @@ class PlayerStats(Base):
     __tablename__ = 'playerstats'
 
     id = Column(Integer, primary_key=True)
-    # date = Column(DateTime(timezone=True), default=func.now())
     minutesPlayed = Column(Integer, nullable=False)
     points = Column(Integer, nullable=False)
     rebounds = Column(Integer, nullable=False)
@@ -136,6 +135,35 @@ class PlayerStats(Base):
             'blocks': self.blocks,
             'turnovers': self.turnovers,
             'fouls': self.fouls,
+            'id': self.id,
+        }
+
+
+class TeamStat(Base):
+    __tablename__ = 'teamstats'
+
+    id = Column(Integer, primary_key=True)
+    q1 = Column(Integer)
+    q2 = Column(Integer)
+    q3 = Column(Integer)
+    q4 = Column(Integer)
+    finalscore = q1+q2+q3+q4
+
+    team_id = Column(Integer, ForeignKey('team.id'))
+    team = relationship(Team, backref=backref('teamstats', cascade='all, delete'))
+    game_id = Column(Integer, ForeignKey('game.id'))
+    game = relationship(Game, backref=backref('teamstats', casecade='all, delete'))
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return{
+            # 'date': self.date,
+            'q1': self.q1,
+            'q2': self.q2,
+            'q3': self.q3,
+            'q4': self.q4,
+            'finalscore': self.finalscore,
             'id': self.id,
         }
 

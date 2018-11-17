@@ -42,10 +42,14 @@ def scores():
 # @app.route('/<int:game_id>/')
 @app.route('/boxscore/<int:game_id>')
 def boxScore(game_id):
-    game = session.query(Game).filter_by(id=game_id).one()
+    games = session.query(Game).filter_by(id=game_id).one()
+    teams = session.query(Team).filter_by(id=games.team_id).all()
+    players = session.query(Player).filter_by(team_id=teams.id).all()
     stats = session.query(PlayerStats).filter_by(game_id=game_id).all()
     teamstats = session.query(TeamStats).filter_by(game_id=game_id).all()
-    return render_template('boxscore.html', game=game, stats=stats, teamstats=teamstats)
+    return render_template('boxscore.html',
+                            games=games,teams=teams, players=players,
+                            stats=stats, teamstats=teamstats)
 
 
 # Shows infromation about the selected player

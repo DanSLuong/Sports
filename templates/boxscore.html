@@ -38,13 +38,16 @@
             <th> T </th>
         </tr>
         <tr>
-            <td> Team 1 </td>
-            <td> Q1 </td>
-            <td> Q2 </td>
-            <td> Q3 </td>
-            <td> Q4 </td>
-            <td> Total </td>
+            {% for teamstat in teamstats %}
+            <td> {{ teamstat.team_id }} </td>
+            <td> {{ teamstat.q1 }} </td>
+            <td> {{ teamstat.q2 }} </td>
+            <td> {{ teamstat.q3 }} </td>
+            <td> {{ teamstat.q4 }} </td>
+            <td> {{ teamstat.finalscore }} </td>
+            {% endfor %}
         </tr>
+        <!--
         <tr>
             <td> Team 2 </td>
             <td> Q1 </td>
@@ -53,10 +56,12 @@
             <td> Q4 </td>
             <td> Total </td>
         </tr>
+        -->
     </table>
 
     <!-- Team 1 -->
-    <h2> Team 1 Name </h2>
+    {% for team in teams %}
+    <h2> {{ team.name }} </h2>
     <table>
         <tr>
             <th> Player </th>
@@ -72,18 +77,25 @@
         </tr>
         <!-- Will need forloop for api/database data -->
         <tr>
-            <td> Player Name </td>
-            <th> Position </th>
-            <th> Min </th>
-            <th> PTS </th>
-            <th> REB </th>
-            <th> AST </th>
-            <th> TO </th>
-            <th> STL </th>
-            <th> BLK </th>
-            <th> PF </th>
+            {% for stat in stats %}
+            <td> {{ stat.player_id }} </td>
+            <th>
+                {% if stat.player_id==players.id %}
+                    {{ player.position }}
+                {% endif %}
+            </th>
+            <th> {{ stat.minutesPlayed }} </th>
+            <th> {{ stat.points }} </th>
+            <th> {{ stat.rebounds }} </th>
+            <th> {{ stat.assists }} </th>
+            <th> {{ stat.turnovers }} </th>
+            <th> {{ stat.steals }} </th>
+            <th> {{ stat.blocks }} </th>
+            <th> {{ stat.fouls }} </th>
+            {% endfor %}
         </tr>
     </table>
+{% endfor %}
 
     <!-- Team 2 -->
     <h2> Team 2 Name </h2>

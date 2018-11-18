@@ -19,6 +19,7 @@ class User(Base):
     picture = Column(String(250))
 
 
+# Team table to store the team info
 class Team(Base):
     __tablename__ = 'team'
 
@@ -44,6 +45,7 @@ class Team(Base):
         }
 
 
+# Player table to store player info
 class Player(Base):
     __tablename__ = 'player'
 
@@ -83,15 +85,18 @@ class Player(Base):
         }
 
 
+# Game table to sort games and dates.
 class Game(Base):
     __tablename__ = 'game'
 
     id = Column(Integer, primary_key=True)
     date = Column(String(250), nullable=False)
-    # date = Column(DateTime(timezone=True), default=func.now())
 
-    team_id = Column(Integer, ForeignKey('team.id'))
-    team = relationship(Team, backref=backref('game', cascade='all, delete'))
+    # Each game associates with two teams
+    team1_id = Column(Integer, ForeignKey('team.id'))
+    team1 = relationship(Team, backref=backref('game', cascade='all, delete'))
+    team2_id = Column(Integer, ForeignKey('team.id'))
+    team2 = relationship(Team, backref=backref('game', cascade='all, delete'))
 
     @property
     def serialize(self):
@@ -103,6 +108,7 @@ class Game(Base):
         }
 
 
+# Stats table for player stats from each individual game
 class PlayerStats(Base):
     __tablename__ = 'playerstats'
 
@@ -139,6 +145,7 @@ class PlayerStats(Base):
         }
 
 
+# Stats table for team stats from each individual game
 class TeamStat(Base):
     __tablename__ = 'teamstats'
 

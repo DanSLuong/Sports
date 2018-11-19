@@ -35,7 +35,10 @@ session = DBSession()
 # Homepage
 @app.route('/')
 def scores():
-    return render_template('scores.html')
+    games = session.query(Game).all()
+    for game in games:
+        teamstats = session.query(TeamStats).filter_by(game_id=game.id).all()
+    return render_template('scores.html', games=games, teamstats=teamstats)
 
 
 # Game Data/Box Score Stats

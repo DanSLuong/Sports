@@ -47,29 +47,23 @@
                 <th> T </th>
             </tr>
             <tr>
-                <td> Team 1 </td>
-                <td> Q1 </td>
-                <td> Q2 </td>
-                <td> Q3 </td>
-                <td> Q4 </td>
-                <td> Total </td>
-            </tr>
-            <tr>
-                <td> Team 2 </td>
-                <td> Q1 </td>
-                <td> Q2 </td>
-                <td> Q3 </td>
-                <td> Q4 </td>
-                <td> Total </td>
+                {% for teamstat in teamstats %}
+                <td> {{ teamstat.team_id }} </td>
+                <td> {{ teamstat.q1 }} </td>
+                <td> {{ teamstat.q2 }} </td>
+                <td> {{ teamstat.q3 }} </td>
+                <td> {{ teamstat.q4 }} </td>
+                <td> {{ teamstat.finalscore }} </td>
+                {% endfor %}
             </tr>
         </table>
-
-        <a href="{{url_for('boxScore')}}">
+        {% for game in games %}
+        <a href="{{url_for('boxScore', game_id=id)}}">
             <div class="boxScore">
                 Box Score
             </div>
         </a>
-
+        {% endfor %}
     </div>
 
 </body>

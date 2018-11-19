@@ -1,0 +1,28 @@
+<div>
+    <h1> Add a game to the DB </h1>
+    <form action="#" method="post">
+        
+        <p> League: </p>
+        <input type='radio' name='league' value='NBA'> NBA <br>
+        <input type='radio' name='league' value='NFL'> NFL <br>
+
+        <p> Date: </p>
+        <input type='text' size='30' name='date' placeholder='Ex: November 15, 2016'>
+
+        <p> Team A: </p>
+        {% for team in teams %}
+        {% if team.league=='NBA' %}
+        <input type='radio' name='name' value='{{ team.name }}'> {{ team.name }} <br>
+        {% endfor %}
+
+        <p> Team B: </p>
+        {% for team in teams %}
+        {% if team.league=='NBA' %}
+        <input type='radio' name='name' value='{{ team.name }}'> {{ team.name }} <br>
+        {% endfor %}
+
+        <br>
+        <input type='submit' value='create'>
+        <a href="{{url_for('scores')}}"> Cancel </a>
+    </form>
+</div>

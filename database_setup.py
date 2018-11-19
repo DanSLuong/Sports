@@ -146,7 +146,7 @@ class PlayerStats(Base):
 
 
 # Stats table for team stats from each individual game
-class TeamStat(Base):
+class TeamStats(Base):
     __tablename__ = 'teamstats'
 
     id = Column(Integer, primary_key=True)

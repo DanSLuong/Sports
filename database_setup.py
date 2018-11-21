@@ -98,6 +98,11 @@ class Game(Base):
     team2_id = Column(Integer, ForeignKey('team.id'))
     team2 = relationship(Team, backref=backref('game', cascade='all, delete'))
 
+    teamstats1_id = Column(Integer, ForeignKey('teamstats.id'))
+    teamstats1 = relationship(Team, backref=backref('game', cascade='all, delete'))
+    teamstats2_id = Column(Integer, ForeignKey('teamstats.id'))
+    teamstats2 = relationship(Team, backref=backref('game', cascade='all, delete'))
+
     @property
     def serialize(self):
         """Return object data in easily serializable format"""

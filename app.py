@@ -7,7 +7,7 @@ from flask import (Flask,
                     g)
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Team, Player, PlayerStats, TeamStats, Game, User
+from database_setup import Base, Team, Player, TeamStats, Game, User
 from flask import session as login_session
 import random
 import string
@@ -48,11 +48,9 @@ def boxScore(game_id):
     games = session.query(Game).filter_by(id=game_id).one()
     teams = session.query(Team).filter_by(id=games.team_id).all()
     players = session.query(Player).filter_by(team_id=teams.id).all()
-    stats = session.query(PlayerStats).filter_by(game_id=game_id).all()
     teamstats = session.query(TeamStats).filter_by(game_id=game_id).all()
     return render_template('boxscore.html',
-                            games=games,teams=teams, players=players,
-                            stats=stats, teamstats=teamstats)
+                            games=games,teams=teams, players=players, teamstats=teamstats)
 
 
 # Shows infromation about the selected player
@@ -67,10 +65,6 @@ def playerStats(team_id, player_id):
 def addTeam():
     if request.method == 'POST':
         team = Team(name = request.form['name'],
-                       city = request.form['city'],
-                       state = request.form['state'],
-                       conference = request.form['conference'],
-                       division = request.form['division'],
                        league = request.form['league'])
         session.add(team)
         session.commit()
@@ -92,14 +86,6 @@ def addPlayer(team_id):
     if request.method == 'POST':
         newPlayer = Player(firstName=request.form['firstName'],
                             lastName=request.form['lastName'],
-                            jersey=request.form['jersey'],
-                            position=request.form['position'],
-                            height=request.form['height'],
-                            weight=request.form['weight'],
-                            age=request.form['age'],
-                            college=request.form['college'],
-                            birthplace=request.form['birthplace'],
-                            role=request.form['role'],
                             team_id=team_id)
         session.add(newPlayer)
         session.commit()

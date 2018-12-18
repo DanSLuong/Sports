@@ -28,14 +28,10 @@
     <table>
         <tr>
             <th> Name </th>
-            <th> Position </th>
-            <th> Number </th>
         </tr>
         {% for player in players %}
         <tr>
             <td> {{ player.firstName }} {{ player.lastName }} </td>
-            <td> {{ player.position }} </td>
-            <td> {{ player.jersey }}</td>
         </tr>
         {% endfor %}
     </table>

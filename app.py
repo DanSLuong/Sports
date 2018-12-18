@@ -7,7 +7,7 @@ from flask import (Flask,
                     g)
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Team, Player, TeamStats, Game, User
+from database_setup import Base, Team, Player, Game, TeamStats, User
 from flask import session as login_session
 import random
 import string
@@ -36,9 +36,12 @@ session = DBSession()
 @app.route('/')
 def scores():
     games = session.query(Game).all()
+    """
     for game in games:
         teamstats = session.query(TeamStats).filter_by(game_id=game.id).all()
-    return render_template('scores.html', games=games, teamstats=teamstats)
+    """
+    # return render_template('scores.html', games=games, teamstats=teamstats)
+    return render_template('scores.html', games=games)
 
 
 # Game Data/Box Score Stats
@@ -71,6 +74,7 @@ def addTeam():
         return redirect(url_for('scores'))
     else:
         return render_template('newteam.html')
+
 
 @app.route('/<int:team_id>/')
 def team(team_id):

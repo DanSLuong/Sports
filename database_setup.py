@@ -19,20 +19,41 @@ class User(Base):
     picture = Column(String(250))
 
 
+# League Info table
+class League(Base):
+    __tablename__ = 'league'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), Nullable=False)
+    sport = Column(String(250), Nullable=False)
+    description = Column(String(250))
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return{
+            'name': self.name,
+            'sport': self.sport,
+            'description': self.description,
+            'id': self.id,
+        }
+
+
 # Team table to store the team info
 class Team(Base):
     __tablename__ = 'team'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    league = Column(String(250), nullable=False)
+
+    league_id = Column(Integer, ForeignKey('league.id'))
+    league = relationship(League, backref=backref('team', cascade='all, delete'))
 
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
         return{
             'name': self.name,
-            'league': self.league,
             'id': self.id,
         }
 
@@ -106,7 +127,6 @@ class TeamStats(Base):
             'finalscore': self.finalscore,
             'id': self.id,
         }
-
 
 
 engine = create_engine('sqlite:///sports.db')

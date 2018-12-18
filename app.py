@@ -7,7 +7,7 @@ from flask import (Flask,
                     g)
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Team, Player, Game, TeamStats, User
+from database_setup import Base, Team, Player, Game, TeamStats, League, User
 from flask import session as login_session
 import random
 import string
@@ -53,37 +53,64 @@ def boxScore(game_id):
     players = session.query(Player).filter_by(team_id=teams.id).all()
     teamstats = session.query(TeamStats).filter_by(game_id=game_id).all()
     return render_template('boxscore.html',
-                            games=games,teams=teams, players=players, teamstats=teamstats)
+                            games=games,
+                            teams=teams,
+                            players=players,
+                            teamstats=teamstats)
 
 
-# Shows infromation about the selected player
-@app.route('/<int:team_id>/players/<int:player_id>/')
-def playerStats(team_id, player_id):
-    players = session.query(Player).filter_by(id=player_id)
-    team = session.query(Team).filter_by(id=team_id).one()
-    return render_template('player.html', players=players, team=team)
+# List the different Leagues
+@app.route('/leagues')
+def league():
+    leagues = session.query(League).all()
+    return render_template('leagues.html', leagues=leagues)
 
 
-@app.route('/addteam/', methods=['GET', 'POST'])
-def addTeam():
+# Create new League
+@app.route('/leagues/new', methods=['GET', 'POST'])
+def createLeague():
+    if request.method == 'POST':
+        newLeague = League(name=request.form['name'],
+                            sport=request.form['sport'].
+                            description=request.form['description'])
+        session.add(newLeague)
+        session.commit()
+        return redirect(url_for('leagueInfo', league_id=newLeague.id))
+    else:
+        return render_template('newleague.html')
+
+
+# Shows information about the selected sports league
+@app.route('/leagues/<int:league_id>')
+def leagueInfo(league_id):
+    league = session.query(League).filter_by(id=league_id)
+    teams = session.query(Team).filter_by(league_id=league_id).all()
+    return render_template('leagueinfo.html', league=league, teams=teams)
+
+
+# Add new team to the league
+@app.route('<int:league_id>/addteam/', methods=['GET', 'POST'])
+def addTeam(league_id):
+    league = session.query(League).filter_by(id=league_id).one()
     if request.method == 'POST':
         team = Team(name = request.form['name'],
                        league = request.form['league'])
         session.add(team)
         session.commit()
-        return redirect(url_for('scores'))
+        return redirect(url_for('leagueInfo', league_id=league_id))
     else:
         return render_template('newteam.html')
 
 
+# Info page for each individual team that list the rosters and recent game scores
 @app.route('/<int:team_id>/')
-def team(team_id):
+def teamInfo(team_id):
     team = session.query(Team).filter_by(id=team_id).one()
     stats = session.query(TeamStats).filter_by(team_id=team_id).all()
     players = session.query(Player).filter_by(team_id=team_id).all()
     return render_template('roster.html', team=team, stats=stats, players=players)
 
-
+# Add a new player to the selected team
 @app.route('/<int:team_id>/addplayer/', methods=['GET', 'POST'])
 def addPlayer(team_id):
     team = session.query(Team).filter_by(id=team_id).one()
@@ -93,9 +120,17 @@ def addPlayer(team_id):
                             team_id=team_id)
         session.add(newPlayer)
         session.commit()
-        return redirect(url_for('team', team_id=team_id))
+        return redirect(url_for('teamInfo', team_id=team_id))
     else:
         return render_template('newplayer.html', team=team)
+
+
+# Shows infromation about the selected player
+@app.route('/<int:team_id>/players/<int:player_id>/')
+def playerStats(team_id, player_id):
+    players = session.query(Player).filter_by(id=player_id)
+    team = session.query(Team).filter_by(id=team_id).one()
+    return render_template('player.html', players=players, team=team)
 
 
 if __name__ == '__main__':

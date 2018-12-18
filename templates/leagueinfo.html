@@ -1,5 +1,10 @@
+{{ league.name }}
 {% for team in teams %}
 <div>
-    {{ team.name }}
+    <a href="{{url_for('teamInfo', league_id=league.id, team_id=team.id)}}">
+        {{ team.name }}
+    </a>
 </div>
 {% endfor %}
+<br>
+<a href="{{url_for('addTeam', league_id=league.id)}}"> Add Team </a>

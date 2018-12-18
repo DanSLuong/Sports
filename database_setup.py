@@ -24,8 +24,8 @@ class League(Base):
     __tablename__ = 'league'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), Nullable=False)
-    sport = Column(String(250), Nullable=False)
+    name = Column(String(250), nullable=False)
+    sport = Column(String(250), nullable=False)
     description = Column(String(250))
 
     @property

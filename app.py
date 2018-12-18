@@ -61,7 +61,7 @@ def boxScore(game_id):
 
 # List the different Leagues
 @app.route('/leagues')
-def league():
+def leagues():
     leagues = session.query(League).all()
     return render_template('leagues.html', leagues=leagues)
 
@@ -71,7 +71,7 @@ def league():
 def createLeague():
     if request.method == 'POST':
         newLeague = League(name=request.form['name'],
-                            sport=request.form['sport'].
+                            sport=request.form['sport'],
                             description=request.form['description'])
         session.add(newLeague)
         session.commit()
@@ -83,36 +83,35 @@ def createLeague():
 # Shows information about the selected sports league
 @app.route('/leagues/<int:league_id>')
 def leagueInfo(league_id):
-    league = session.query(League).filter_by(id=league_id)
+    league = session.query(League).filter_by(id=league_id).one()
     teams = session.query(Team).filter_by(league_id=league_id).all()
     return render_template('leagueinfo.html', league=league, teams=teams)
 
 
 # Add new team to the league
-@app.route('<int:league_id>/addteam/', methods=['GET', 'POST'])
+@app.route('/leagues/<int:league_id>/addteam/', methods=['GET', 'POST'])
 def addTeam(league_id):
     league = session.query(League).filter_by(id=league_id).one()
     if request.method == 'POST':
-        team = Team(name = request.form['name'],
-                       league = request.form['league'])
-        session.add(team)
+        newTeam = Team(name=request.form['name'])
+        session.add(newTeam)
         session.commit()
         return redirect(url_for('leagueInfo', league_id=league_id))
     else:
-        return render_template('newteam.html')
+        return render_template('newteam.html', league=league)
 
 
 # Info page for each individual team that list the rosters and recent game scores
-@app.route('/<int:team_id>/')
-def teamInfo(team_id):
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/')
+def teamInfo(league_id, team_id):
     team = session.query(Team).filter_by(id=team_id).one()
     stats = session.query(TeamStats).filter_by(team_id=team_id).all()
     players = session.query(Player).filter_by(team_id=team_id).all()
     return render_template('roster.html', team=team, stats=stats, players=players)
 
 # Add a new player to the selected team
-@app.route('/<int:team_id>/addplayer/', methods=['GET', 'POST'])
-def addPlayer(team_id):
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/addplayer/', methods=['GET', 'POST'])
+def addPlayer(league_id, team_id):
     team = session.query(Team).filter_by(id=team_id).one()
     if request.method == 'POST':
         newPlayer = Player(firstName=request.form['firstName'],
@@ -120,14 +119,14 @@ def addPlayer(team_id):
                             team_id=team_id)
         session.add(newPlayer)
         session.commit()
-        return redirect(url_for('teamInfo', team_id=team_id))
+        return redirect(url_for('teamInfo', league_id=league_id, team_id=team_id))
     else:
         return render_template('newplayer.html', team=team)
 
 
 # Shows infromation about the selected player
-@app.route('/<int:team_id>/players/<int:player_id>/')
-def playerStats(team_id, player_id):
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/')
+def playerStats(league_id, team_id, player_id):
     players = session.query(Player).filter_by(id=player_id)
     team = session.query(Team).filter_by(id=team_id).one()
     return render_template('player.html', players=players, team=team)

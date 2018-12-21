@@ -435,6 +435,24 @@ def editTeam(league_id, team_id):
         return render_template("editteam.html", league=league, team=editTeam)
 
 
+# Delete team
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/delete/', methods=['GET', 'POST'])
+@login_required
+def deletePlayer(league_id, team_id, player_id):
+    teamDelete = session.query(Player).filter_by(id=player_id).one()
+    league = session.query(League).filter_by(id=league_id).one()
+    if login_session['user_id'] != team.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only delete teams you have created.');}" \
+               "</script><body onload='myFunction()'>"
+    if request.method == 'POST':
+        session.delete(teamDelete)
+        session.commit()
+        return redirect(url_for('leagueInfo', league_id=league_id))
+    else:
+        return render_template('deleteteam.html', team=teamDelete)
+
+
 # List all teams
 @app.route('/teams/')
 def teams():

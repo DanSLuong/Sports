@@ -409,12 +409,19 @@ def teamInfo(league_id, team_id):
 @login_required
 def editTeam(league_id, team_id):
     league = session.query(League).filter_by(id=league_id).one()
-    team = session.query(Team).filter_by(id=team_id).one()
-    if login_session['user_id'] != team.user_id:
+    editTeam = session.query(Team).filter_by(id=team_id).one()
+    if login_session['user_id'] != editTeam.user_id:
         return "<script>function myFunction() " \
                "{alert('You can only edit the info of teams you have created.');}" \
                "</script><body onload='myFunction()'>"
-    return render_template("editteam.html", league=league, team=team)
+    if request.method == 'POST':
+        if request.form['name']:
+            editTeam.name = request.form['name']
+        session.add(editTeam)
+        session.commit()
+        return redirect(url_for('leagueInfo', league_id=league_id))
+    else:
+        return render_template("editteam.html", league=league, team=team)
 
 
 # List all teams

@@ -89,6 +89,7 @@ def createLeague():
 
 # Shows information about the selected sports league
 @app.route('/leagues/<int:league_id>/')
+@app.route('/leagues/<int:league_id>/teams/')
 def leagueInfo(league_id):
     league = session.query(League).filter_by(id=league_id).one()
     teams = session.query(Team).filter_by(league_id=league_id).all()
@@ -111,10 +112,11 @@ def addTeam(league_id):
 # Info page for each individual team that list the rosters and recent game scores
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/')
 def teamInfo(league_id, team_id):
+    league = session.query(League).filter_by(id=league_id).one()
     team = session.query(Team).filter_by(id=team_id).one()
-    stats = session.query(TeamStats).filter_by(team_id=team_id).all()
+    # stats = session.query(TeamStats).filter_by(team_id=team_id).all()
     players = session.query(Player).filter_by(team_id=team_id).all()
-    return render_template('roster.html', team=team, stats=stats, players=players)
+    return render_template('roster.html', league=league, team=team, players=players)
 
 
 # List all teams

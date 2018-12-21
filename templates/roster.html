@@ -1,3 +1,9 @@
+{% extends "main.html" %}
+
+{% block title %} {{ team.name }} {% endblock %}
+
+{% block content %}
+
 <style>
     table,
     th,
@@ -35,5 +41,7 @@
         </tr>
         {% endfor %}
     </table>
-    <h3> <a href="{{url_for('addPlayer', team_id=team.id)}}"> add player </a></h3>
+    <h3> <a href="{{url_for('addPlayer', league_id=league.id, team_id=team.id)}}"> add player </a></h3>
 </div>
+
+{% endblock %}

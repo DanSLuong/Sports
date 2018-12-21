@@ -416,6 +416,7 @@ def teams():
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/addplayer/', methods=['GET', 'POST'])
 @login_required
 def addPlayer(league_id, team_id):
+    team = session.query(Team).filter_by(id=team_id).one()
     if login_session['user_id'] != team.user_id:
         return "<script>function myFunction() " \
                "{alert('You can only add players to teams you have created.');}" \
@@ -437,6 +438,20 @@ def addPlayer(league_id, team_id):
 def players():
     players = session.query(Player).all()
     return render_template('players.html', players=players)
+
+
+# Edit player info
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/edit/')
+@login_required
+def editPlayer(league_id, team_id, player_id):
+    league = session.query(League).filter_by(id=league_id).one()
+    team = session.query(Team).filter_by(id=team_id).one()
+    player = session.query(Player).filter_by(id=player_id).one()
+    if login_session['user_id'] != team.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only edit the info of players you have added to the team.');}" \
+               "</script><body onload='myFunction()'>"
+    return render_template("editteam.html", league=league, team=team, player)
 
 
 # Shows infromation about the selected player

@@ -33,7 +33,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="{{url_for('about')}}"> About </a>
+                <a class="nav-link" href="#"> About </a>
             </li>
             
             {% if login_session == False %}
@@ -42,14 +42,14 @@
             </li>
             {% else %}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{{url_for('Leagues')}}" id="navbardrop" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" href="{{url_for('leagues')}}" id="navbardrop" data-toggle="dropdown">
                     Account Info
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#"> Account Info </a>
                     <a class="dropdown-item" href="#"> Leagues </a>
                     <a class="dropdown-item" href="#"> Teams </a>
-                    <a class="dropdown-item" href="{{url_for('logout')}}"> Logout </a>
+                    <a class="dropdown-item" href="#"> Logout </a>
                 </div>
             </li>
             {% endif %}

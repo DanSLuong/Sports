@@ -347,6 +347,7 @@ def leagues():
 
 # Create new League
 @app.route('/leagues/new/', methods=['GET', 'POST'])
+@login_required
 def createLeague():
     if request.method == 'POST':
         newLeague = League(name=request.form['name'],
@@ -370,6 +371,7 @@ def leagueInfo(league_id):
 
 # Add new team to the league
 @app.route('/leagues/<int:league_id>/addteam/', methods=['GET', 'POST'])
+@login_required
 def addTeam(league_id):
     league = session.query(League).filter_by(id=league_id).one()
     if request.method == 'POST':
@@ -400,7 +402,12 @@ def teams():
 
 # Add a new player to the selected team
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/addplayer/', methods=['GET', 'POST'])
+@login_required
 def addPlayer(league_id, team_id):
+    if login_session['user_id'] != team.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only add players to teams you have created.');}" \
+               "</script><body onload='myFunction()'>"
     team = session.query(Team).filter_by(id=team_id).one()
     if request.method == 'POST':
         newPlayer = Player(firstName=request.form['firstName'],

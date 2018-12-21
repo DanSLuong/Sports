@@ -391,6 +391,20 @@ def teamInfo(league_id, team_id):
     return render_template('roster.html', league=league, team=team, players=players)
 
 
+# Edit team info
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/edit')
+@login_required
+def editTeam(league_id, team_id):
+    league = session.query(League).filter_by(id=league_id).one()
+    team = session.query(Team).filter_by(id=team_id).one()
+    if login_session['user_id'] != team.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only edit the info of teams you have created.');}" \
+               "</script><body onload='myFunction()'>"
+    team = session.query(Team).filter_by(id=team_id).one()
+    return render_template("editteam.html", league=league, team=team)
+
+
 # List all teams
 @app.route('/teams/')
 def teams():

@@ -492,6 +492,25 @@ def editPlayer(league_id, team_id, player_id):
         return render_template('editplayerinfo.html', league_id=league_id, team_id=team_id, player_id=player_id, player=editPlayer)
 
 
+# Delete a player
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/delete/', methods=['GET', 'POST'])
+@login_required
+def deletePlayer(league_id, team_id, player_id):
+    playerDelete = session.query(Player).filter_by(id=player_id).one()
+    team = session.query(Team).filter_by(id=team_id).one()
+    league = session.query(League).filter_by(id=league_id).one()
+    if login_session['user_id'] != team.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only delete players on teams you have created.');}" \
+               "</script><body onload='myFunction()'>"
+    if request.method == 'POST':
+        session.delete(playerDelete)
+        session.commit()
+        return redirect(url_for('showPlayers', team_id=team_id))
+    else:
+        return render_template('deleteplayer.html', player=playerDelete)
+
+
 # Shows infromation about the selected player
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/')
 def playerStats(league_id, team_id, player_id):

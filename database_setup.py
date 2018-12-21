@@ -48,6 +48,9 @@ class Team(Base):
 
     league_id = Column(Integer, ForeignKey('league.id'))
     league = relationship(League, backref=backref('team', cascade='all, delete'))
+    
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User, backref='team')
 
     @property
     def serialize(self):
@@ -68,6 +71,7 @@ class Player(Base):
     
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(Team, backref=backref('player', cascade='all, delete'))
+    
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User, backref='items')
 

@@ -453,17 +453,26 @@ def players():
 
 
 # Edit player info
-@app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/edit/')
+@app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/edit/', method=['GET', 'POST'])
 @login_required
 def editPlayer(league_id, team_id, player_id):
     league = session.query(League).filter_by(id=league_id).one()
     team = session.query(Team).filter_by(id=team_id).one()
-    player = session.query(Player).filter_by(id=player_id).one()
+    editPlayer = session.query(Player).filter_by(id=player_id).one()
     if login_session['user_id'] != team.user_id:
         return "<script>function myFunction() " \
                "{alert('You can only edit the info of players you have added to the team.');}" \
                "</script><body onload='myFunction()'>"
-    return render_template("editteam.html", league=league, team=team, player)
+    if request.method == 'POST':
+        if request.form['firstName']:
+            editPlayer.name = request.form['firstName']
+        if request.form['lastName']:
+            editPlayer.name = request.form['lastName']
+        session.add(editPlayer)
+        session.commit()
+        return redirect(url_for('teamInfo', team_id=team_id))
+    else:
+        return render_template('editplayerinfo.html', league_id=league_id, team_id=team_id, player_id=player_id, player=editPlayer)
 
 
 # Shows infromation about the selected player

@@ -367,17 +367,26 @@ def leagueInfo(league_id):
     return render_template('leagueinfo.html', league=league, teams=teams)
 
 
-
 # Edit league info
 @app.route('/leagues/<int:league_id>/edit/')
 @login_required
 def editLeague(league_id):
-    league = session.query(League).filter_by(id=league_id).one()
+    editLeague = session.query(League).filter_by(id=league_id).one()
     if login_session['user_id'] != league.user_id:
         return "<script>function myFunction() " \
                "{alert('You can only edit the info of teams you have created.');}" \
                "</script><body onload='myFunction()'>"
     return render_template("editteam.html", league=league)
+    if request.method == 'POST':
+        if request.form['name']:
+            editLeague.name = request.form['name']
+        if request.form['sport']:
+            editLeague.sport = request.form['sport']
+        session.add(editTeam)
+        session.commit()
+        return redirect(url_for('leagues')
+    else:
+        return render_template("editteam.html", league=league)
 
 
 # Add new team to the league
@@ -421,7 +430,7 @@ def editTeam(league_id, team_id):
         session.commit()
         return redirect(url_for('leagueInfo', league_id=league_id))
     else:
-        return render_template("editteam.html", league=league, team=team)
+        return render_template("editteam.html", league=league, team=editTeam)
 
 
 # List all teams

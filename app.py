@@ -34,6 +34,13 @@ session = DBSession()
 
 # Homepage
 @app.route('/')
+def home():
+    games = session.query(Game).all()
+    return render_template('scores.html', games=games)
+
+
+# Scores
+@app.route('/scores')
 def scores():
     games = session.query(Game).all()
     """
@@ -109,6 +116,14 @@ def teamInfo(league_id, team_id):
     players = session.query(Player).filter_by(team_id=team_id).all()
     return render_template('roster.html', team=team, stats=stats, players=players)
 
+
+# List all teams
+@app.route('/teams')
+def teams():
+    teams = session.query(Team).all()
+    return render_template('teams.html', teams=teams)
+
+
 # Add a new player to the selected team
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/addplayer/', methods=['GET', 'POST'])
 def addPlayer(league_id, team_id):
@@ -122,6 +137,13 @@ def addPlayer(league_id, team_id):
         return redirect(url_for('teamInfo', league_id=league_id, team_id=team_id))
     else:
         return render_template('newplayer.html', team=team)
+
+
+# List of all players
+@app.route('/players')
+def players():
+    players = session.query(Player).all()
+    return render_template('players.html', players=players)
 
 
 # Shows infromation about the selected player

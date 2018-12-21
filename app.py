@@ -456,7 +456,6 @@ def players():
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/players/<int:player_id>/edit/', method=['GET', 'POST'])
 @login_required
 def editPlayer(league_id, team_id, player_id):
-    league = session.query(League).filter_by(id=league_id).one()
     team = session.query(Team).filter_by(id=team_id).one()
     editPlayer = session.query(Player).filter_by(id=player_id).one()
     if login_session['user_id'] != team.user_id:

@@ -4,10 +4,12 @@
 
 {% block content %}
 
+{% for player in players %}
 <div>
     <a href="{{url_for('playerStats', player_id=player.id)}}">
         <h3> {{ player.name }} </h3>
     </a>
 </div>
+{% endfor %}
 
 {% endblock %}

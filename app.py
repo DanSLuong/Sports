@@ -40,7 +40,7 @@ def home():
 
 
 # Scores
-@app.route('/scores')
+@app.route('/scores/')
 def scores():
     games = session.query(Game).all()
     """
@@ -53,7 +53,7 @@ def scores():
 
 # Game Data/Box Score Stats
 # @app.route('/<int:game_id>/')
-@app.route('/boxscore/<int:game_id>')
+@app.route('/boxscore/<int:game_id>/')
 def boxScore(game_id):
     games = session.query(Game).filter_by(id=game_id).one()
     teams = session.query(Team).filter_by(id=games.team_id).all()
@@ -67,14 +67,14 @@ def boxScore(game_id):
 
 
 # List the different Leagues
-@app.route('/leagues')
+@app.route('/leagues/')
 def leagues():
     leagues = session.query(League).all()
     return render_template('leagues.html', leagues=leagues)
 
 
 # Create new League
-@app.route('/leagues/new', methods=['GET', 'POST'])
+@app.route('/leagues/new/', methods=['GET', 'POST'])
 def createLeague():
     if request.method == 'POST':
         newLeague = League(name=request.form['name'],
@@ -88,7 +88,7 @@ def createLeague():
 
 
 # Shows information about the selected sports league
-@app.route('/leagues/<int:league_id>')
+@app.route('/leagues/<int:league_id>/')
 def leagueInfo(league_id):
     league = session.query(League).filter_by(id=league_id).one()
     teams = session.query(Team).filter_by(league_id=league_id).all()
@@ -118,7 +118,7 @@ def teamInfo(league_id, team_id):
 
 
 # List all teams
-@app.route('/teams')
+@app.route('/teams/')
 def teams():
     teams = session.query(Team).all()
     return render_template('teams.html', teams=teams)
@@ -140,7 +140,7 @@ def addPlayer(league_id, team_id):
 
 
 # List of all players
-@app.route('/players')
+@app.route('/players/')
 def players():
     players = session.query(Player).all()
     return render_template('players.html', players=players)

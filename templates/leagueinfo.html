@@ -1,10 +1,20 @@
-{{ league.name }}
+{% extends "main.html" %}
+
+{% block title %} {{ league.name }} {% endblock %}
+
+{% block content %}
+
+<div>
+    <h1> List of teams: </h1>
+</div>
 {% for team in teams %}
 <div>
     <a href="{{url_for('teamInfo', league_id=league.id, team_id=team.id)}}">
-        {{ team.name }}
+        <h2> {{ team.name }} </h2>
     </a>
 </div>
 {% endfor %}
 <br>
 <a href="{{url_for('addTeam', league_id=league.id)}}"> Add Team </a>
+
+{% endblock %}

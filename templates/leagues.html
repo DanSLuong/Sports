@@ -1,9 +1,15 @@
+{% extends "main.html" %}
+
+{% block title %} Teams {% endblock %}
+
+{% block content %}
 <a href="{{url_for('createLeague')}}"> Add League </a>
 
 {% for league in leagues %}
 <div>
     <a href="{{url_for('leagueInfo', league_id=league.id)}}">
-        {{ league.name }}
+        <h3> {{ league.name }} </h3>
     </a>
 </div>
 {% endfor %}
+{% endblock %}

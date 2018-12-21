@@ -8,6 +8,7 @@
     <h1> List of teams: </h1>
 </div>
 {% for team in teams %}
+{{ team.name }}
 <div>
     <a href="{{url_for('teamInfo', league_id=league.id, team_id=team.id)}}">
         <h2> {{ team.name }} </h2>

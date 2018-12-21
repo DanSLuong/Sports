@@ -367,6 +367,19 @@ def leagueInfo(league_id):
     return render_template('leagueinfo.html', league=league, teams=teams)
 
 
+
+# Edit league info
+@app.route('/leagues/<int:league_id>/edit/')
+@login_required
+def editLeague(league_id):
+    league = session.query(League).filter_by(id=league_id).one()
+    if login_session['user_id'] != league.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only edit the info of teams you have created.');}" \
+               "</script><body onload='myFunction()'>"
+    return render_template("editteam.html", league=league)
+
+
 # Add new team to the league
 @app.route('/leagues/<int:league_id>/addteam/', methods=['GET', 'POST'])
 @login_required
@@ -401,7 +414,6 @@ def editTeam(league_id, team_id):
         return "<script>function myFunction() " \
                "{alert('You can only edit the info of teams you have created.');}" \
                "</script><body onload='myFunction()'>"
-    team = session.query(Team).filter_by(id=team_id).one()
     return render_template("editteam.html", league=league, team=team)
 
 

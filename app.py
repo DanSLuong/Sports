@@ -374,7 +374,7 @@ def editLeague(league_id):
     editLeague = session.query(League).filter_by(id=league_id).one()
     if login_session['user_id'] != league.user_id:
         return "<script>function myFunction() " \
-               "{alert('You can only edit the info of teams you have created.');}" \
+               "{alert('You can only edit the info of leagues you have created.');}" \
                "</script><body onload='myFunction()'>"
     return render_template("editteam.html", league=league)
     if request.method == 'POST':
@@ -382,7 +382,9 @@ def editLeague(league_id):
             editLeague.name = request.form['name']
         if request.form['sport']:
             editLeague.sport = request.form['sport']
-        session.add(editTeam)
+        if request.form['description']:
+            editLeague.description = request.form['description']
+        session.add(editLeague)
         session.commit()
         return redirect(url_for('leagues')
     else:

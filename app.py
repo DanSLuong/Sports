@@ -391,6 +391,23 @@ def editLeague(league_id):
         return render_template("editteam.html", league=league)
 
 
+# Delete League
+@app.route('/leagues/<int:league_id>/delete/', methods=['GET', 'POST'])
+@login_required
+def deleteTeam(league_id):
+    deleteLeague = session.query(League).filter_by(id=league_id).one()
+    if login_session['user_id'] != team.user_id:
+        return "<script>function myFunction() " \
+               "{alert('You can only delete leagues you have created.');}" \
+               "</script><body onload='myFunction()'>"
+    if request.method == 'POST':
+        session.delete(deleteLeague)
+        session.commit()
+        return redirect(url_for('leagues'))
+    else:
+        return render_template('deleteleague.html', league=deleteLeague)
+
+
 # Add new team to the league
 @app.route('/leagues/<int:league_id>/addteam/', methods=['GET', 'POST'])
 @login_required
@@ -438,7 +455,7 @@ def editTeam(league_id, team_id):
 # Delete team
 @app.route('/leagues/<int:league_id>/teams/<int:team_id>/delete/', methods=['GET', 'POST'])
 @login_required
-def deletePlayer(league_id, team_id, player_id):
+def deleteTeam(league_id, team_id):
     teamDelete = session.query(Player).filter_by(id=player_id).one()
     league = session.query(League).filter_by(id=league_id).one()
     if login_session['user_id'] != team.user_id:

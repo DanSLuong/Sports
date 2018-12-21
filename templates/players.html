@@ -1,12 +1,15 @@
 {% extends "main.html" %}
 
-{% block title %} Teams {% endblock %}
+{% block title %} Players {% endblock %}
 
 {% block content %}
 
+<h1> List of players: </h1>
+
 {% for player in players %}
+
 <div>
-    <a href="{{url_for('playerStats', player_id=player.id)}}">
+    <a href="">
         <h3> {{ player.name }} </h3>
     </a>
 </div>
